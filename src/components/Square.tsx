@@ -16,7 +16,7 @@ export function Square({id, word, handleChange}: SquareType) {
             type="text" 
             className='square' 
             id={id + ""} 
-            value={word} 
+            value={word.toUpperCase()} 
             maxLength={1} 
             onChange={_handleChange} 
             onClick={handleClick}

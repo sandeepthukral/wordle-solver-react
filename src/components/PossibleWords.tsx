@@ -1,12 +1,19 @@
-import React from "react";
-import Word from "./Word";
+import Words from "./Words";
 
-const PossibleWords = () => (
+type PossibleWordsProps = {handleClick: Function, words: string[]}
+
+const PossibleWords = (props: PossibleWordsProps) => {
+    const fetchWords = () => {
+        console.log('inner click handler for show words')
+        props.handleClick();
+    }
+    return (
     <>
-        <button >Show Words</button>
+        <button onClick={fetchWords}>Show Words</button>
         <div>Possible Words</div>
-        <Word /> 
+        <Words words={props.words}/> 
     </>
-)
+    )
+}
 
 export default PossibleWords;
