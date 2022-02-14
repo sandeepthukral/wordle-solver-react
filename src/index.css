@@ -11,3 +11,48 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+/* .board-row:after {
+  clear: both;
+  content: "";
+  display: table;
+} */
+
+.outer {
+  margin-top: 10px;
+  border: white 2px double;
+}
+
+.square {
+  border: 1px solid #999;
+  height: 34px;
+  margin-right: -1px;
+  margin-top: -1px;
+  text-align: center;
+  width: 34px;
+}
+
+.button {
+  border: 1px solid #999;
+  height: 24px;
+  margin-right: -1px;
+  margin-top: -1px;
+  text-align: center;
+  width: 40px;
+}
+
+.button- {
+  background-color: white;
+}
+
+.button-B {
+  background-color: black;
+}
+
+.button-Y {
+  background-color: yellow;
+}
+
+.button-G {
+  background-color: green;
+}
