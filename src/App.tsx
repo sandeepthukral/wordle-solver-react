@@ -5,7 +5,6 @@ import './App.css';
 import { findValidWords } from './modules/wordsSearch'
 
 function App() {
-  const startGame = () => {}
   const [data, setData] = useState(Array(20).fill(''))
   const [statuses, setStatuses] = useState(Array(20).fill(''))
   const [validWords, setValidWords] = useState([''])

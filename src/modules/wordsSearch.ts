@@ -1,7 +1,8 @@
 import words from '../resources/words.json'
+import { getGlobalLettersRegex } from './regexGenerator'
 type Letters = string[]
 type Statuses = string[]
-type ObjectLettersStatuses = {letter: string, status: string}
+export type ObjectLettersStatuses = {letter: string, status: string}
 
 const mergeArrays = (a: string[], b: string[]) => {
     return a.map((a, index) => {
@@ -29,13 +30,17 @@ export const findValidWords = (letters: Letters, statuses: Statuses) => {
 
     // collect all words with status G or Y as includeLetters
     const includeLetters = [...getIncludeLetters(letterstatuses1), ...getIncludeLetters(letterstatuses2)]
-    const includeRegexp = new RegExp(`[${includeLetters.join('')}]`)
+    console.log(`includeLetters ${includeLetters}`);
+    const includeRegexp = getGlobalLettersRegex(includeLetters)
+    console.log(` include regexp ${includeRegexp}`);
+    
     
     // collect all words with status B as excludeLetters
     const excludeLetters = [...getExcludeLetters(letterstatuses1), ...getExcludeLetters(letterstatuses2)]
-    const excludeRegexp = new RegExp(`[${excludeLetters.join('')}]`)
+    console.log(`excludeLetters ${excludeLetters}`);
+    const excludeRegexp = getGlobalLettersRegex(excludeLetters)
+    console.log(` include regexp ${excludeRegexp}`);
     
     const words1 = words.filter(word => includeRegexp.test(word)).filter(word => !excludeRegexp.test(word))
-    console.log(words1);
     return words1;
 }

@@ -1,4 +1,4 @@
-import React, { MouseEvent } from 'react';
+import React from 'react';
 
 export type SquareType = {id: number, word: string, handleChange: Function}
 
