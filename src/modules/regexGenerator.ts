@@ -9,7 +9,7 @@ export const getGlobalLettersRegex = (letters: string[]) => {
 export const getPositionalLettersRegexp = (letterGroups: ObjectLettersStatuses[]) => {
     const positionalLetterIncludeRegexps: RegExp[] = []
     const positionalLetterExcludeRegexps: RegExp[] = []
-    const regExpWords = Array(5).fill('{w}')
+    const regExpWords = Array(5).fill('\\w')
     letterGroups.forEach((letterGroup, index) => {
         const localRegExpWords = [...regExpWords]
         if (letterGroup.status == 'Y') {
@@ -21,5 +21,5 @@ export const getPositionalLettersRegexp = (letterGroups: ObjectLettersStatuses[]
             positionalLetterIncludeRegexps.push(new RegExp(`^${localRegExpWords.join('')}$`))
         }
     });
-    return [positionalLetterExcludeRegexps, positionalLetterIncludeRegexps]
+    return [positionalLetterIncludeRegexps, positionalLetterExcludeRegexps]
 }

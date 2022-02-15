@@ -1,20 +1,20 @@
 import words from '../resources/words.json'
-import { getGlobalLettersRegex } from './regexGenerator'
+import { getGlobalLettersRegex, getPositionalLettersRegexp } from './regexGenerator'
 type Letters = string[]
 type Statuses = string[]
-export type ObjectLettersStatuses = {letter: string, status: string}
+export type ObjectLettersStatuses = { letter: string, status: string }
 
 const mergeArrays = (a: string[], b: string[]) => {
     return a.map((a, index) => {
-        let obj = {letter: '', status: ''}
+        let obj = { letter: '', status: '' }
         obj.letter = a
         obj.status = b[index]
         return obj
     })
 }
 
-const getIncludeLetters = ((ab: ObjectLettersStatuses[]) => ab.filter(ab => ab.status==='G' || ab.status==='Y').map(ab => ab.letter))
-const getExcludeLetters = ((ab: ObjectLettersStatuses[]) => ab.filter(ab => ab.status==='B').map(ab => ab.letter))
+const getIncludeLetters = ((ab: ObjectLettersStatuses[]) => ab.filter(ab => ab.status === 'G' || ab.status === 'Y').map(ab => ab.letter))
+const getExcludeLetters = ((ab: ObjectLettersStatuses[]) => ab.filter(ab => ab.status === 'B').map(ab => ab.letter))
 
 export const findValidWords = (letters: Letters, statuses: Statuses) => {
 
@@ -33,14 +33,27 @@ export const findValidWords = (letters: Letters, statuses: Statuses) => {
     console.log(`includeLetters ${includeLetters}`);
     const includeRegexp = getGlobalLettersRegex(includeLetters)
     console.log(` include regexp ${includeRegexp}`);
-    
-    
+
     // collect all words with status B as excludeLetters
     const excludeLetters = [...getExcludeLetters(letterstatuses1), ...getExcludeLetters(letterstatuses2)]
     console.log(`excludeLetters ${excludeLetters}`);
     const excludeRegexp = getGlobalLettersRegex(excludeLetters)
-    console.log(` include regexp ${excludeRegexp}`);
-    
+    console.log(` exclude regexp ${excludeRegexp}`);
+
+    const [includePositionalRegExps, excludePositionalRegExps] = getAllPositionalRegExps(letterstatuses1, letterstatuses2)
+
     const words1 = words.filter(word => includeRegexp.test(word)).filter(word => !excludeRegexp.test(word))
+
     return words1;
+}
+
+export const getAllPositionalRegExps = (...letterObjectInputs: ObjectLettersStatuses[][]) => {
+    let includeRegExps: RegExp[] = []
+    let excludeRegExps: RegExp[] = []
+    letterObjectInputs.map((letterObject: ObjectLettersStatuses[]) => {
+        const [includes, excludes] = getPositionalLettersRegexp(letterObject)
+        includeRegExps.push(...includes)
+        excludeRegExps.push(...excludes)
+    })
+    return [includeRegExps, excludeRegExps]
 }
