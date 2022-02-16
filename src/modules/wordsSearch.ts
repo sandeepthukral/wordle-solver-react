@@ -53,7 +53,7 @@ export const findValidWords = (letters: Letters, statuses: Statuses) => {
     console.log(` include regexp ${includeRegexp}`);
 
     // collect all words with status B as excludeLetters
-    const excludeLetters = [
+    let excludeLetters = [
         ...getExcludeLetters(letterstatuses1),
         ...getExcludeLetters(letterstatuses2),
         ...getExcludeLetters(letterstatuses3),
@@ -61,6 +61,9 @@ export const findValidWords = (letters: Letters, statuses: Statuses) => {
         ...getExcludeLetters(letterstatuses5),
         ...getExcludeLetters(letterstatuses6),
     ]
+
+    // any letter included should be removed from the excluded letters array
+    excludeLetters = excludeLetters.filter(ele => !includeLetters.includes(ele))
     console.log(`excludeLetters ${excludeLetters}`);
     const excludeRegexp = getGlobalLettersRegex(excludeLetters)
     console.log(` exclude regexp ${excludeRegexp}`);

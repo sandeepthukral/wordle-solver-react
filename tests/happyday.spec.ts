@@ -32,6 +32,16 @@ test('basic test 3', async ({ page }) => {
   await expect(await page.locator('#countOfResults').innerText()).toEqual('12');
 });
 
+test('basic test 4', async ({ page }) => {
+  await page.goto('http://localhost:3000/');
+
+  await fillLetters(page, 'CLEARHONKYCUPIDCALLS');
+  await setStatuses(page, 'GYBYBBBBYBGYBBBGGBGB');
+  await page.locator('#showWords').click();
+
+  await expect(await page.locator('#countOfResults').innerText()).toEqual('2');
+});
+
 const fillLetters = async (page: Page, letters: string) => {
   if (letters.length === 0) return;
   const arrLetters = letters.split('');
