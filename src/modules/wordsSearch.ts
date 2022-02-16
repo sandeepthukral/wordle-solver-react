@@ -4,6 +4,9 @@ type Letters = string[]
 type Statuses = string[]
 export type ObjectLettersStatuses = { letter: string, status: string }
 
+const includeStatuses = ['Y', 'G'];
+const excludeStatuses = ['B'];
+
 const mergeArrays = (a: string[], b: string[]) => {
     return a.map((a, index) => {
         let obj = { letter: '', status: '' }
@@ -13,8 +16,8 @@ const mergeArrays = (a: string[], b: string[]) => {
     })
 }
 
-const getIncludeLetters = ((ab: ObjectLettersStatuses[]) => ab.filter(ab => ab.status === 'G' || ab.status === 'Y').map(ab => ab.letter))
-const getExcludeLetters = ((ab: ObjectLettersStatuses[]) => ab.filter(ab => ab.status === 'B').map(ab => ab.letter))
+export const getIncludeLetters = ((ab: ObjectLettersStatuses[]) => ab.filter(ab => includeStatuses.includes(ab.status)).map(ab => ab.letter))
+export const getExcludeLetters = ((ab: ObjectLettersStatuses[]) => ab.filter(ab => excludeStatuses.includes(ab.status)).map(ab => ab.letter))
 
 export const findValidWords = (letters: Letters, statuses: Statuses) => {
 
