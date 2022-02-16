@@ -12,11 +12,11 @@ export const getPositionalLettersRegexp = (letterGroups: ObjectLettersStatuses[]
     const regExpWords = Array(5).fill('\\w')
     letterGroups.forEach((letterGroup, index) => {
         const localRegExpWords = [...regExpWords]
-        if (letterGroup.status == 'Y') {
+        if (letterGroup.status === 'Y') {
             localRegExpWords[index] = letterGroup.letter;
             positionalLetterExcludeRegexps.push(new RegExp(`^${localRegExpWords.join('')}$`))
         }
-        if (letterGroup.status == 'G') {
+        if (letterGroup.status === 'G') {
             localRegExpWords[index] = letterGroup.letter;
             positionalLetterIncludeRegexps.push(new RegExp(`^${localRegExpWords.join('')}$`))
         }
