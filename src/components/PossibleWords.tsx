@@ -1,6 +1,6 @@
 import Words from "./Words";
 
-type PossibleWordsProps = {handleClick: Function, words: string[]}
+type PossibleWordsProps = { handleClick: Function, words: string[] }
 
 const PossibleWords = (props: PossibleWordsProps) => {
     const fetchWords = () => {
@@ -8,11 +8,11 @@ const PossibleWords = (props: PossibleWordsProps) => {
         props.handleClick();
     }
     return (
-    <>
-        <button onClick={fetchWords}>Show Words</button>
-        <div>Possible Words</div>
-        <Words words={props.words}/> 
-    </>
+        <>
+            <button onClick={fetchWords} id="showWords">Show Words</button>
+            <div>Possible Words</div>
+            <Words words={props.words} />
+        </>
     )
 }
 
