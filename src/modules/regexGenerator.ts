@@ -6,6 +6,13 @@ export const getGlobalLettersRegex = (letters: string[]) => {
     return new RegExp(`[${letters.join('')}]`)
 }
 
+export const getGlobalIncludeLettersRegex = (letters: string[]) => {
+    if (!letters.length) return [new RegExp('.*')]
+    let regExps: RegExp[] = []
+    letters.forEach(letter => regExps.push(new RegExp(`${letter}`)))
+    return regExps;
+}
+
 export const getPositionalLettersRegexp = (letterGroups: ObjectLettersStatuses[]) => {
     const positionalLetterIncludeRegexps: RegExp[] = []
     const positionalLetterExcludeRegexps: RegExp[] = []

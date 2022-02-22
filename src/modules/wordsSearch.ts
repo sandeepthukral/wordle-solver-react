@@ -1,5 +1,5 @@
 import words from '../resources/words.json'
-import { getGlobalLettersRegex, getPositionalLettersRegexp } from './regexGenerator'
+import { getGlobalIncludeLettersRegex, getGlobalLettersRegex, getPositionalLettersRegexp } from './regexGenerator'
 import { mergeArrays } from '../utils/utils'
 type Letters = string[]
 type Statuses = string[]
@@ -49,8 +49,7 @@ export const findValidWords = (letters: Letters, statuses: Statuses) => {
         ...getIncludeLetters(letterstatuses6),
     ]
     console.log(`includeLetters ${includeLetters}`);
-    const includeRegexp = getGlobalLettersRegex(includeLetters)
-    console.log(` include regexp ${includeRegexp}`);
+    const includeRedExps = getGlobalIncludeLettersRegex(includeLetters)
 
     // collect all words with status B as excludeLetters
     let excludeLetters = [
@@ -72,7 +71,8 @@ export const findValidWords = (letters: Letters, statuses: Statuses) => {
     console.log(`includePositionalRegExps ${includePositionalRegExps}`);
     console.log(`excludePositionalRegExps ${excludePositionalRegExps}`);
 
-    let words1 = words.filter(word => includeRegexp.test(word)).filter(word => !excludeRegexp.test(word))
+    let words1 = words.filter(word => !excludeRegexp.test(word))
+    words1 = applyAllIncludeRegExps(includeRedExps, words1);
     words1 = applyAllIncludeRegExps(includePositionalRegExps, words1);
     words1 = applyAllExcludeRegExps(excludePositionalRegExps, words1);
 

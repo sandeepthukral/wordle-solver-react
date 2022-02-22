@@ -3,40 +3,40 @@ import { test, expect, Page } from '@playwright/test';
 test('basic test', async ({ page }) => {
   await page.goto('http://localhost:3000/');
 
-  await fillLetters(page, 'CLAKHONERYPID');
-  await setStatuses(page, 'YYYYBBBBBBBBB');
+  await fillLetters(page, 'CLAKH');
+  await setStatuses(page, 'YYYBB');
   await page.locator('#showWords').click();
 
-  await expect(await page.locator('#countOfResults').innerText()).toEqual('271');
+  await expect(await page.locator('#countOfResults').innerText()).toEqual('34');
 });
 
 
 test('basic test 2', async ({ page }) => {
   await page.goto('http://localhost:3000/');
 
-  await fillLetters(page, 'GREATBONDS');
-  await setStatuses(page, 'YBBBBYBBBY');
+  await fillLetters(page, 'TRADEMUNCH');
+  await setStatuses(page, 'YYBBYBBBBY');
   await page.locator('#showWords').click();
 
-  await expect(await page.locator('#countOfResults').innerText()).toEqual('135');
+  await expect(await page.locator('#countOfResults').innerText()).toEqual('4');
 });
 
 
 test('basic test 3', async ({ page }) => {
   await page.goto('http://localhost:3000/');
 
-  await fillLetters(page, 'CLEARHONKYCUPID');
-  await setStatuses(page, 'GYBYBBBBYBGYBBB');
+  await fillLetters(page, 'TRADEMUNCH');
+  await setStatuses(page, 'BBBBBBBBBB');
   await page.locator('#showWords').click();
 
-  await expect(await page.locator('#countOfResults').innerText()).toEqual('12');
+  await expect(await page.locator('#countOfResults').innerText()).toEqual('344');
 });
 
 test('basic test 4', async ({ page }) => {
   await page.goto('http://localhost:3000/');
 
-  await fillLetters(page, 'CLEARHONKYCUPIDCALLS');
-  await setStatuses(page, 'GYBYBBBBYBGYBBBGGBGB');
+  await fillLetters(page, 'ETRAD');
+  await setStatuses(page, 'YYYYY');
   await page.locator('#showWords').click();
 
   await expect(await page.locator('#countOfResults').innerText()).toEqual('2');

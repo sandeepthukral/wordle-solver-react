@@ -1,4 +1,4 @@
-import { getGlobalLettersRegex, getPositionalLettersRegexp } from './regexGenerator'
+import { getGlobalIncludeLettersRegex, getGlobalLettersRegex, getPositionalLettersRegexp } from './regexGenerator'
 import { ObjectLettersStatuses } from './wordsSearch';
 
 test('should return empty regexp if inoput array is empty', () => {
@@ -11,6 +11,19 @@ test('should return valid regexp when passing inout array', () => {
     const output = getGlobalLettersRegex(testInput)
     const expectedRegExp = /[aei]/
     expect(output).toStrictEqual(new RegExp(expectedRegExp));
+})
+
+test('given no inlcude letters to getGlobalIncludeLettersRegex', () => {
+    const inputLetters: string[] = [];
+    const expectedOutput = [new RegExp('.*')]
+    expect(getGlobalIncludeLettersRegex(inputLetters)).toStrictEqual(expectedOutput)
+})
+
+
+test('given some inlcude letters to getGlobalIncludeLettersRegex', () => {
+    const inputLetters: string[] = ['e', 'i', 'o'];
+    const expectedOutput = [new RegExp(/e/), new RegExp(/i/), new RegExp(/o/)]
+    expect(getGlobalIncludeLettersRegex(inputLetters)).toStrictEqual(expectedOutput)
 })
 
 test('no Y or G input to positionalLettersRegExp', () => {
