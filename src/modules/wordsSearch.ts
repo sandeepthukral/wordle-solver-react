@@ -15,50 +15,28 @@ export const getExcludeLetters = ((ab: ObjectLettersStatuses[]) =>
 
 export const findValidWords = (letters: Letters, statuses: Statuses) => {
 
-    // slice a and b into 6 arrays of 5 items each
-    const letters1 = letters.slice(0, 5)
-    const statuses1 = statuses.slice(0, 5)
-    const letters2 = letters.slice(5, 10)
-    const statuses2 = statuses.slice(5, 10)
-    const letters3 = letters.slice(10, 15)
-    const statuses3 = statuses.slice(10, 15)
-    const letters4 = letters.slice(15, 20)
-    const statuses4 = statuses.slice(15, 20)
-    const letters5 = letters.slice(20, 25)
-    const statuses5 = statuses.slice(20, 25)
-    const letters6 = letters.slice(25, 30)
-    const statuses6 = statuses.slice(25, 30)
-
-    // join an and bn into abn, where each item there is {letter: a, status: b}
-    const letterstatuses1 = mergeArrays(letters1, statuses1);
-    const letterstatuses2 = mergeArrays(letters2, statuses2);
-    const letterstatuses3 = mergeArrays(letters3, statuses3);
-    const letterstatuses4 = mergeArrays(letters4, statuses4);
-    const letterstatuses5 = mergeArrays(letters5, statuses5);
-    const letterstatuses6 = mergeArrays(letters6, statuses6);
-
-    const lettersStatusess = [letterstatuses1, letterstatuses2, letterstatuses3, letterstatuses4, letterstatuses5, letterstatuses6]
+    const lettersStatuses = getLetterStatuses(letters, statuses);
 
     // collect all words with status G or Y as includeLetters
     const includeLetters = [
-        ...getIncludeLetters(letterstatuses1),
-        ...getIncludeLetters(letterstatuses2),
-        ...getIncludeLetters(letterstatuses3),
-        ...getIncludeLetters(letterstatuses4),
-        ...getIncludeLetters(letterstatuses5),
-        ...getIncludeLetters(letterstatuses6),
+        ...getIncludeLetters(lettersStatuses[0]),
+        ...getIncludeLetters(lettersStatuses[1]),
+        ...getIncludeLetters(lettersStatuses[2]),
+        ...getIncludeLetters(lettersStatuses[3]),
+        ...getIncludeLetters(lettersStatuses[4]),
+        ...getIncludeLetters(lettersStatuses[5]),
     ]
     console.log(`includeLetters ${includeLetters}`);
     const includeRedExps = getGlobalIncludeLettersRegex(includeLetters)
 
     // collect all words with status B as excludeLetters
     let excludeLetters = [
-        ...getExcludeLetters(letterstatuses1),
-        ...getExcludeLetters(letterstatuses2),
-        ...getExcludeLetters(letterstatuses3),
-        ...getExcludeLetters(letterstatuses4),
-        ...getExcludeLetters(letterstatuses5),
-        ...getExcludeLetters(letterstatuses6),
+        ...getExcludeLetters(lettersStatuses[0]),
+        ...getExcludeLetters(lettersStatuses[1]),
+        ...getExcludeLetters(lettersStatuses[2]),
+        ...getExcludeLetters(lettersStatuses[3]),
+        ...getExcludeLetters(lettersStatuses[4]),
+        ...getExcludeLetters(lettersStatuses[5]),
     ]
 
     // any letter included should be removed from the excluded letters array
@@ -67,7 +45,14 @@ export const findValidWords = (letters: Letters, statuses: Statuses) => {
     const excludeRegexp = getGlobalLettersRegex(excludeLetters)
     console.log(` exclude regexp ${excludeRegexp}`);
 
-    const [includePositionalRegExps, excludePositionalRegExps] = getAllPositionalRegExps(letterstatuses1, letterstatuses2, letterstatuses3, letterstatuses4, letterstatuses5, letterstatuses6)
+    const [includePositionalRegExps, excludePositionalRegExps] =
+        getAllPositionalRegExps(
+            lettersStatuses[0],
+            lettersStatuses[1],
+            lettersStatuses[2],
+            lettersStatuses[3],
+            lettersStatuses[4],
+            lettersStatuses[5])
     console.log(`includePositionalRegExps ${includePositionalRegExps}`);
     console.log(`excludePositionalRegExps ${excludePositionalRegExps}`);
 
@@ -77,6 +62,37 @@ export const findValidWords = (letters: Letters, statuses: Statuses) => {
     words1 = applyAllExcludeRegExps(excludePositionalRegExps, words1);
 
     return words1;
+}
+
+const getLetterStatuses = (letters: Letters, statuses: Statuses) => {
+    const lettersSlices = [
+        letters.slice(0, 5),
+        letters.slice(5, 10),
+        letters.slice(10, 15),
+        letters.slice(15, 20),
+        letters.slice(20, 25),
+        letters.slice(0, 5),
+    ]
+
+    const statusesSlices = [
+        statuses.slice(0, 5),
+        statuses.slice(5, 10),
+        statuses.slice(10, 15),
+        statuses.slice(15, 20),
+        statuses.slice(20, 25),
+        statuses.slice(0, 5),
+    ]
+
+    const lettersStatuses = [
+        mergeArrays(lettersSlices[0], statusesSlices[0]),
+        mergeArrays(lettersSlices[1], statusesSlices[1]),
+        mergeArrays(lettersSlices[2], statusesSlices[2]),
+        mergeArrays(lettersSlices[3], statusesSlices[3]),
+        mergeArrays(lettersSlices[4], statusesSlices[4]),
+        mergeArrays(lettersSlices[5], statusesSlices[5]),
+    ]
+
+    return lettersStatuses;
 }
 
 export const getAllPositionalRegExps = (...letterObjectInputs: ObjectLettersStatuses[][]) => {
