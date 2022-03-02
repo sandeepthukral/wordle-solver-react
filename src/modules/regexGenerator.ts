@@ -1,9 +1,9 @@
 import { ObjectLettersStatuses } from "./wordsSearch";
 
 export const getGlobalLettersRegex = (letters: string[]) => {
-    console.log(`[getGlobalLettersRegex] incoming letters ${letters}`);
-    if (!letters.length) return new RegExp('.*')
-    return new RegExp(`[${letters.join('')}]`)
+    // console.log(`[getGlobalLettersRegex] incoming letters ${letters}`);
+    if (!letters.length) return []
+    return [new RegExp(`[${letters.join('')}]`)]
 }
 
 export const getGlobalIncludeLettersRegex = (letters: string[]) => {

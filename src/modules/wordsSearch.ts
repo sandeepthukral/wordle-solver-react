@@ -1,4 +1,4 @@
-import words from '../resources/words.json'
+import allPossibleWords from '../resources/words.json'
 import { getGlobalIncludeLettersRegex, getGlobalLettersRegex, getPositionalLettersRegexp } from './regexGenerator'
 import { mergeArrays } from '../utils/utils'
 type Letters = string[]
@@ -14,7 +14,6 @@ export const getExcludeLetters = ((ab: ObjectLettersStatuses[]) =>
     ab.filter(ab => excludeStatuses.includes(ab.status)).map(ab => ab.letter))
 
 export const findValidWords = (letters: Letters, statuses: Statuses) => {
-
     const lettersStatuses = getLetterStatuses(letters, statuses);
 
     // collect all words with status G or Y as includeLetters
@@ -26,7 +25,6 @@ export const findValidWords = (letters: Letters, statuses: Statuses) => {
         ...getIncludeLetters(lettersStatuses[4]),
         ...getIncludeLetters(lettersStatuses[5]),
     ]
-    console.log(`includeLetters ${includeLetters}`);
     const includeRedExps = getGlobalIncludeLettersRegex(includeLetters)
 
     // collect all words with status B as excludeLetters
@@ -41,9 +39,7 @@ export const findValidWords = (letters: Letters, statuses: Statuses) => {
 
     // any letter included should be removed from the excluded letters array
     excludeLetters = excludeLetters.filter(ele => !includeLetters.includes(ele))
-    console.log(`excludeLetters ${excludeLetters}`);
-    const excludeRegexp = getGlobalLettersRegex(excludeLetters)
-    console.log(` exclude regexp ${excludeRegexp}`);
+    const excludeRegexps = getGlobalLettersRegex(excludeLetters)
 
     const [includePositionalRegExps, excludePositionalRegExps] =
         getAllPositionalRegExps(
@@ -53,15 +49,14 @@ export const findValidWords = (letters: Letters, statuses: Statuses) => {
             lettersStatuses[3],
             lettersStatuses[4],
             lettersStatuses[5])
-    console.log(`includePositionalRegExps ${includePositionalRegExps}`);
-    console.log(`excludePositionalRegExps ${excludePositionalRegExps}`);
 
-    let words1 = words.filter(word => !excludeRegexp.test(word))
-    words1 = applyAllIncludeRegExps(includeRedExps, words1);
-    words1 = applyAllIncludeRegExps(includePositionalRegExps, words1);
-    words1 = applyAllExcludeRegExps(excludePositionalRegExps, words1);
+    // now apply the regula expressions and filter out valid words
+    let validWords = applyAllExcludeRegExps(excludeRegexps, allPossibleWords);
+    validWords = applyAllIncludeRegExps(includeRedExps, validWords);
+    validWords = applyAllIncludeRegExps(includePositionalRegExps, validWords);
+    validWords = applyAllExcludeRegExps(excludePositionalRegExps, validWords);
 
-    return words1;
+    return validWords;
 }
 
 const getLetterStatuses = (letters: Letters, statuses: Statuses) => {
@@ -71,7 +66,7 @@ const getLetterStatuses = (letters: Letters, statuses: Statuses) => {
         letters.slice(10, 15),
         letters.slice(15, 20),
         letters.slice(20, 25),
-        letters.slice(0, 5),
+        letters.slice(25, 30),
     ]
 
     const statusesSlices = [
@@ -80,7 +75,7 @@ const getLetterStatuses = (letters: Letters, statuses: Statuses) => {
         statuses.slice(10, 15),
         statuses.slice(15, 20),
         statuses.slice(20, 25),
-        statuses.slice(0, 5),
+        statuses.slice(25, 30),
     ]
 
     const lettersStatuses = [
@@ -107,9 +102,11 @@ export const getAllPositionalRegExps = (...letterObjectInputs: ObjectLettersStat
 }
 
 export const applyAllIncludeRegExps = (res: RegExp[], words: string[]) => {
+    if (res.length === 0) return words;
     return res.reduce((final, re) => { return final.filter(finalWord => re.test(finalWord)) }, words)
 }
 
 export const applyAllExcludeRegExps = (res: RegExp[], words: string[]) => {
+    if (res.length === 0) return words;
     return res.reduce((final, re) => { return final.filter(finalWord => !re.test(finalWord)) }, words)
 }

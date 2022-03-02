@@ -3,14 +3,14 @@ import { ObjectLettersStatuses } from './wordsSearch';
 
 test('should return empty regexp if inoput array is empty', () => {
     const output = getGlobalLettersRegex([]);
-    expect(output).toStrictEqual(new RegExp('.*'));
+    expect(output).toStrictEqual([]);
 })
 
 test('should return valid regexp when passing inout array', () => {
     const testInput = ['a', 'e', 'i']
     const output = getGlobalLettersRegex(testInput)
     const expectedRegExp = /[aei]/
-    expect(output).toStrictEqual(new RegExp(expectedRegExp));
+    expect(output).toStrictEqual([new RegExp(expectedRegExp)]);
 })
 
 test('given no inlcude letters to getGlobalIncludeLettersRegex', () => {
